@@ -1,0 +1,107 @@
+import random
+from tkinter import *
+#reset button
+def res():
+  global balance
+  balance = 100
+  lab6.configure(text="Balance = $" + str(balance))
+  but.configure(state = NORMAL)
+  lab5.configure(text="")
+  lab9.configure(text="")
+  lab4.configure(text="")
+  lab8.configure(text="")
+
+# guess validation
+def user_val(): 
+  if int(ent.get()) < 1 or int(ent.get()) > 10:
+    lab9.configure(text="That is an invalid guess")
+    return 0
+  else: 
+    lab9.configure(text="")
+    return int(ent.get())
+
+# bet validation
+def bal_val():
+    if int(ent2.get()) > balance:
+      lab8.configure(text="")
+      lab8.configure(text="You don't have that much $$")
+      return 0
+    else:
+      bet = ent2.get()
+      lab8.configure(text="")
+      return bet 
+
+# function to get the user input and bet and computer guess and compare and edit the balance accordingly 
+def numb():
+  global lab
+  global lab4
+  global lab5
+  global lab6
+  global lab8
+  global lab9
+  global balance
+  cp = str(random.randint(1, 10))
+  bet = int(ent2.get())
+  user = user_val()
+  if int(bal_val()) == 0:
+    bet = 0
+  else:
+    bet = bal_val()
+
+  if user == 0:
+    bet = 0
+
+  lab5.configure(text="The computer guessed: " + cp)
+  if (cp == user): 
+    lab4.configure(text="You guessed the right number!!!")
+    balance += (int(bet) * 10)
+    lab8.configure(text="You won $" + str(int(bet) * 10))
+    lab6.configure(text="Balance = $" + str(balance))
+  else:
+    lab4.configure(text="Close but no cigar") 
+    balance = balance - int(bet)
+    if (balance <= 0):
+      balance = 0 
+      but.configure(state= DISABLED)
+      lab9.configure(text="Your all out of Money! Better Luck Next Time.")
+    lab6.configure(text="Balance = $" + str(balance))
+  
+# window and things in it
+window=Tk()
+# add widgets here
+lab = Label(window, text ="Welcome to Number Guess!!", font=("Times New Roman", 15))
+lab.place(relx = 0.5, rely = 0.1, anchor = 'center')
+lab2 = Label(window, text ="The computer has its number", font=("Times New Roman", 12))
+lab2.place(relx = 0.7, rely = 0.15, anchor = 'center')
+lab3 = Label(window, text ="Whats your guess?? (1-10)", font=("Times New Roman", 12))
+lab3.place(relx = 0.7, rely = 0.2, anchor = 'center')
+ent = Entry(window, width=2)
+ent.place(relx = 0.7, rely = 0.28, anchor = 'center')
+lab4 = Label(window, text ="", font=("Times New Roman", 12))
+lab4.place(relx = 0.5, rely = 0.5, anchor = 'center')
+lab5 = Label(window, text ="", font=("Times New Roman", 12))
+lab5.place(relx = 0.5, rely = 0.42, anchor = 'center')
+but = Button(window, text="Guess", width=10, command=numb)
+but.place(relx = 0.5, rely = 0.35, anchor = 'center')
+
+balance = 100
+lab6 = Label(window, text ="Balance = $" + str(balance), font=("Times New Roman", 12))
+lab6.place(relx = 0.3, rely = 0.15, anchor = 'center')
+lab7 = Label(window, text ="How much do you wanna bet?", font=("Times New Roman", 12))
+lab7.place(relx = 0.3, rely = 0.2, anchor = 'center')
+ent2 = Entry(window, width=3)
+ent2.place(relx = 0.3, rely = 0.28, anchor = 'center')
+lab8 = Label(window, text ="", font=("Times New Roman", 12))
+lab8.place(relx = 0.5, rely = 0.6, anchor = 'center')
+lab9 = Label(window, text ="", font=("Times New Roman", 12))
+lab9.place(relx = 0.5, rely = 0.7, anchor = 'center')
+
+but2 = Button(window, text="Restart", width=10, command=res)
+but2.place(relx = 0.4, rely = 0.8, anchor = 'center')
+but3 = Button(window, text="Quit", width=10, command=res)
+but3.place(relx = 0.6, rely = 0.8, anchor = 'center')
+
+
+window.title('Whiz Bangz')
+window.geometry("600x500")
+window.mainloop()
