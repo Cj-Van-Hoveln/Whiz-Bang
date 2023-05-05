@@ -1,0 +1,106 @@
+# Import statements for random and GUI
+import random
+import tkinter as tk
+
+# Set up default GUI window
+window = tk.Tk()
+window.geometry("375x375")
+window.title("Rock Paper Scissors")
+window.configure(bg = "white")
+
+# Create labels for instructions
+welcome = tk.Label(window, bg = "white", height = "2", text = "Welcome to Rock-Paper-Scissors!", font = "bold")
+instructions = tk.Label(window, bg = "white", height = "5", text = "The computer will choose between rock, paper, and scissors.\nMake your choice to beat it!\nRock beats scissors, scissors beat paper, paper beats rock!\nGood Luck!")
+
+# Align labels in grid
+welcome.grid(column = 0, row = 1)
+instructions.grid(column = 0, row = 2)
+
+# Variables for user and computer choice and score
+userc = ""
+compc = ""
+users = 0
+comps = 0
+
+# Function for random computer choice
+def comp_choice():
+	return random.choice(["ROCK", "PAPER", "SCISSORS"])
+
+# Function to determine winner
+def winner(user, comp):
+	global users
+	global comps
+	userc = user
+	compc = comp
+	if (user == comp):
+		print("\ntie")
+	elif(comp == "ROCK" and user == "PAPER") or (comp == "PAPER" and user == "SCISSORS") or (comp == "SCISSORS" and user == "ROCK"):
+		print("\nuser win")
+		users += 1
+	else:
+		print("\ncomp win")
+		comps += 1
+	# Create text area for results
+	result_text = "Your Choice: {uc} \nComputer Choice: {cc} \nYour Score: {us} \nComputer Score: {cs} ".format(uc = user, cc = comp, us = users, cs = comps)
+	result = tk.Label(window, width = 30, bg = "white", text = result_text)
+	result.grid(column = 0, row = 7)
+
+# Create functions for button presses
+def rock_button():
+	global userc
+	global compc
+	userc = "ROCK"
+	compc = comp_choice()
+	winner(userc, compc)
+	print("rock")
+
+def paper_button():
+	global userc
+	global compc
+	userc = "PAPER"
+	compc = comp_choice()
+	winner(userc, compc)
+	print("paper")
+
+def scissor_button():
+	global userc
+	global compc
+	userc = "SCISSORS"
+	compc = comp_choice()
+	winner(userc, compc)
+	print("scissor")
+
+def quit_button():
+	print("\nquit")
+	# Set up quit GUI window
+	quitw = tk.Tk()
+	quitw.geometry("375x375")
+	quitw.title("Quit")
+	quitw.configure(bg = "gray")
+
+def menu_button():
+	print("\nmenu")
+	# Set up quit GUI window
+	menuw = tk.Tk()
+	menuw.geometry("375x375")
+	menuw.title("Menu")
+	menuw.configure(bg = "gray")
+
+# Create Rock Paper Scissor buttons
+buttonr = tk.Button(text = "ROCK", bg = "lightblue", activebackground = "orange", width = 10, command = rock_button)
+buttonp = tk.Button(text = "PAPER", bg = "lightpink", activebackground = "orange", width = 10, command = paper_button)
+buttons = tk.Button(text = "SCISSORS", bg = "lightgreen", activebackground = "orange", width = 10, command = scissor_button)
+
+# Align RPS buttons in grid
+buttonr.grid(column = 0, row = 4)
+buttonp.grid(column = 0, row = 5)
+buttons.grid(column = 0, row = 6)
+
+# Create menu and quit buttons
+buttonm = tk.Button(text = "Menu", bg = "lightgray", fg = "green", width = 10, command = menu_button)
+buttonq = tk.Button(text = "Quit", bg = "lightgray", fg = "red", width = 10, command = quit_button)
+buttonm.grid(column = 0, row = 8)
+buttonq.grid(column = 0, row = 9)
+
+# Event loop
+window.mainloop()
