@@ -1,0 +1,464 @@
+import tkinter as tk
+from tkinter import *
+import random
+from tkinter import messagebox
+
+# Function for main screen
+def mainsc():
+	welcome = tk.Tk()
+	welcome.geometry("600x600")
+	welcome.title("Menu")
+	hello = tk.Label(welcome, text = "Welcome to MiniGames!", font = "bold", height = 10)
+	hello.place(x = 200, y = 10)
+	
+	# Buttons to play games
+	rps = tk.Button(text = "Rock Paper Scissors", bg = "lightblue", activebackground = "skyblue", width = 15, command = rpsgame)
+	numguess = tk.Button(text = "Number Guess", bg = "orange", activebackground = "darkorange", width = 15, command = numgame)
+	ttt = tk.Button(text = "Tic-Tac-Toe", bg = "lightgreen", activebackground = "lime", width = 15, command = tttgame)
+	quit = tk.Button(text = "Quit", bg = "coral", activebackground = "tomato", width = 15, command = quitsc)
+	
+	rps.place(x = 290, y = 150)
+	numguess.place(x = 140, y = 150)
+	ttt.place(x = 140, y = 180)
+	quit.place(x = 290, y = 180)
+	
+	welcome.mainloop()
+
+# Global variables for rock paper scissors
+userc = ""
+compc = ""
+users = 0
+comps = 0
+
+#============================================================================================
+# Function for rock paper scissors game
+def rpsgame():
+	# Set up  GUI window
+	window = tk.Tk()
+	window.geometry("375x375")
+	window.title("Rock Paper Scissors")
+	window.configure(bg = "white")
+	
+	# Create labels for instructions
+	welcome = tk.Label(window, bg = "white", height = "2", text = "Welcome to Rock-Paper-Scissors!", font = "bold")
+	instructions = tk.Label(window, bg = "white", height = "5", text = "The computer will choose between rock, paper, and scissors.\nMake your choice to beat it!\nRock beats scissors, scissors beat paper, paper beats rock!\nGood Luck!")
+	
+	# Align labels in grid
+	welcome.grid(column = 0, row = 1)
+	instructions.grid(column = 0, row = 2)
+	
+	# Variables for user and computer choice and score
+	#userc = ""
+	#compc = ""
+	#users = 0
+	#comps = 0
+	
+	# Function for random computer choice
+	def comp_choice():
+		return random.choice(["ROCK", "PAPER", "SCISSORS"])
+	
+	# Function to determine winner
+	def winner(user, comp):
+		global users
+		global comps
+		userc = user
+		compc = comp
+		if (user == comp):
+			print("\ntie")
+		elif(comp == "ROCK" and user == "PAPER") or (comp == "PAPER" and user == "SCISSORS") or (comp == "SCISSORS" and user == "ROCK"):
+			print("\nuser win")
+			users += 1
+		else:
+			print("\ncomp win")
+			comps += 1
+		# Create text area for results
+		result_text = "Your Choice: {uc} \nComputer Choice: {cc} \nYour Score: {us} \nComputer Score: {cs} ".format(uc = user, cc = comp, us = users, cs = comps)
+		result = tk.Label(window, width = 30, bg = "white", text = result_text)
+		result.grid(column = 0, row = 7)
+	
+	# Create functions for button presses
+	def rock_button():
+		global userc
+		global compc
+		userc = "ROCK"
+		compc = comp_choice()
+		winner(userc, compc)
+		print("rock")
+	
+	def paper_button():
+		global userc
+		global compc
+		userc = "PAPER"
+		compc = comp_choice()
+		winner(userc, compc)
+		print("paper")
+	
+	def scissor_button():
+		global userc
+		global compc
+		userc = "SCISSORS"
+		compc = comp_choice()
+		winner(userc, compc)
+		print("scissor")
+	
+	# Create Rock Paper Scissor buttons
+	buttonr = tk.Button(window, text = "ROCK", bg = "lightblue", activebackground = "orange", width = 10, command = rock_button)
+	buttonp = tk.Button(window, text = "PAPER", bg = "lightpink", activebackground = "orange", width = 10, command = paper_button)
+	buttons = tk.Button(window, text = "SCISSORS", bg = "lightgreen", activebackground = "orange", width = 10, command = scissor_button)
+	
+	# Align RPS buttons in grid
+	buttonr.grid(column = 0, row = 4)
+	buttonp.grid(column = 0, row = 5)
+	buttons.grid(column = 0, row = 6)
+	
+	# Event loop
+	window.mainloop()	
+
+# Global variables for number game
+balance = 100
+
+
+#============================================================================================
+# Function for number game
+def numgame():
+  # window and things in it
+  window=Tk()
+  # add widgets here
+  lab = Label(window, text ="Welcome to Number Guess!!", font=("Times New Roman", 15))
+  lab.place(relx = 0.5, rely = 0.1, anchor = 'center')
+  lab2 = Label(window, text ="The computer has its number", font=("Times New Roman", 12))
+  lab2.place(relx = 0.7, rely = 0.15, anchor = 'center')
+  lab3 = Label(window, text ="Whats your guess?? (1-10)", font=("Times New Roman", 12))
+  lab3.place(relx = 0.7, rely = 0.2, anchor = 'center')
+  ent = Entry(window, width=2)
+  ent.place(relx = 0.7, rely = 0.28, anchor = 'center')
+  lab4 = Label(window, text ="", font=("Times New Roman", 12))
+  lab4.place(relx = 0.5, rely = 0.5, anchor = 'center')
+  lab5 = Label(window, text ="", font=("Times New Roman", 12))
+  lab5.place(relx = 0.5, rely = 0.42, anchor = 'center')
+  lab6 = Label(window, text ="Balance = $" + str(balance), font=("Times New Roman", 12))
+  lab6.place(relx = 0.3, rely = 0.15, anchor = 'center')
+  lab7 = Label(window, text ="How much do you wanna bet?", font=("Times New Roman", 12))
+  lab7.place(relx = 0.3, rely = 0.2, anchor = 'center')
+  ent2 = Entry(window, width=3)
+  ent2.place(relx = 0.3, rely = 0.28, anchor = 'center')
+  lab8 = Label(window, text ="", font=("Times New Roman", 12))
+  lab8.place(relx = 0.5, rely = 0.6, anchor = 'center')
+  lab9 = Label(window, text ="", font=("Times New Roman", 12))
+  lab9.place(relx = 0.5, rely = 0.7, anchor = 'center')
+  window.title('Whiz Bangz')
+  window.geometry("600x500")
+
+
+  #reset button 
+  def res():
+    global balance
+    balance = 100
+    lab6.configure(text="Balance = $" + str(balance))
+    but.configure(state = NORMAL)
+    lab5.configure(text="")
+    lab9.configure(text="")
+    lab4.configure(text="")
+    lab8.configure(text="")
+  
+  # guess validation
+  def user_val(): 
+    if int(ent.get()) < 1 or int(ent.get()) > 10:
+      lab9.configure(text="That is an invalid guess")
+      return 0
+    else: 
+      lab9.configure(text="")
+      return int(ent.get())
+  
+  # bet validation
+  def bal_val():
+      if int(ent2.get()) > balance:
+        lab8.configure(text="")
+        lab8.configure(text="You don't have that much $$")
+        return 0
+      else:
+        bet = ent2.get()
+        lab8.configure(text="")
+        return bet 
+  
+  # function to get the user input and bet and computer guess and compare and edit the balance accordingly 
+  def numb():
+    global balance
+    cp = str(random.randint(1, 10))
+    bet = int(ent2.get())
+    user = user_val()
+    if int(bal_val()) == 0:
+      bet = 0
+    else:
+      bet = bal_val()
+  
+    if user == 0:
+      bet = 0
+  
+    lab5.configure(text="The computer guessed: " + cp)
+    if (int(cp) == int(user)): 
+      lab4.configure(text="You guessed the right number!!!")
+      balance += (int(bet) * 10)
+      lab8.configure(text="You won $" + str(int(bet) * 10))
+      lab6.configure(text="Balance = $" + str(balance))
+    else:
+      lab4.configure(text="Close but no cigar") 
+      balance = balance - int(bet)
+      if (balance <= 0):
+        balance = 0 
+        but.configure(state= DISABLED)
+        lab9.configure(text="Your all out of Money! Better Luck Next Time.")
+      lab6.configure(text="Balance = $" + str(balance))
+
+  
+  but = Button(window, text="Guess", width=10, command=numb)
+  but.place(relx = 0.5, rely = 0.35, anchor = 'center')
+  but2 = Button(window, text="Restart", width=10, command=res)
+  but2.place(relx = 0.4, rely = 0.8, anchor = 'center')
+  but3 = Button(window, text="Quit", width=10, command=window.destroy)
+  but3.place(relx = 0.6, rely = 0.8, anchor = 'center')
+
+  window.mainloop()
+
+
+#============================================================================================
+# Function for tic-tac-toe game
+def tttgame():
+	root = Tk()
+
+	#set title
+	root.title('Tic-Tac-Toe')
+	
+	#X will start true
+	clicked = True
+	count = 0
+	
+	#Disable game buttons
+	def disable_buttons():
+		b1.config(state=DISABLED)
+		b2.config(state=DISABLED)
+		b3.config(state=DISABLED)
+		b4.config(state=DISABLED)
+		b5.config(state=DISABLED)
+		b6.config(state=DISABLED)
+		b7.config(state=DISABLED)
+		b8.config(state=DISABLED)
+		b9.config(state=DISABLED)
+	
+	#Check for a winner 
+	def checkforwinner():
+		global winner
+		winner = False
+	
+		#Check X got 3 in a row
+		#Check row 1
+		if b1["text"] == "X" and b2["text"] == "X" and b3["text"] == "X":
+			b1.config(bg="green")
+			b2.config(bg="green")
+			b3.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check row 2
+		elif b4["text"] == "X" and b5["text"] == "X" and b6["text"] == "X":
+			b4.config(bg="green")
+			b5.config(bg="green")
+			b6.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check row 3
+		elif b7["text"] == "X" and b8["text"] == "X" and b9["text"] == "X":
+			b7.config(bg="green")
+			b8.config(bg="green")
+			b9.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check column 1
+		elif b1["text"] == "X" and b4["text"] == "X" and b7["text"] == "X":
+			b1.config(bg="green")
+			b4.config(bg="green")
+			b7.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check column 2
+		elif b2["text"] == "X" and b5["text"] == "X" and b8["text"] == "X":
+			b2.config(bg="green")
+			b5.config(bg="green")
+			b8.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check column 3
+		elif b3["text"] == "X" and b6["text"] == "X" and b9["text"] == "X":
+			b3.config(bg="green")
+			b6.config(bg="green")
+			b9.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check diagonals
+		elif b1["text"] == "X" and b5["text"] == "X" and b9["text"] == "X":
+			b1.config(bg="green")
+			b5.config(bg="green")
+			b9.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		elif b3["text"] == "X" and b5["text"] == "X" and b7["text"] == "X":
+			b3.config(bg="green")
+			b5.config(bg="green")
+			b7.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "X wins!")
+			disable_buttons()
+		#Check if O got three in a row
+		#Check row 1
+		if b1["text"] == "O" and b2["text"] == "O" and b3["text"] == "O":
+			b1.config(bg="green")
+			b2.config(bg="green")
+			b3.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		#Check row 2
+		elif b4["text"] == "O" and b5["text"] == "O" and b6["text"] == "O":
+			b4.config(bg="green")
+			b5.config(bg="green")
+			b6.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		#Check row 3
+		elif b7["text"] == "O" and b8["text"] == "O" and b9["text"] == "O":
+			b7.config(bg="green")
+			b8.config(bg="green")
+			b9.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		#Check column 1
+		elif b1["text"] == "O" and b4["text"] == "O" and b7["text"] == "O":
+			b1.config(bg="green")
+			b4.config(bg="green")
+			b7.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		#Check column 2
+		elif b2["text"] == "O" and b5["text"] == "O" and b8["text"] == "O":
+			b2.config(bg="green")
+			b5.config(bg="green")
+			b8.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		#Check column 3
+		elif b3["text"] == "O" and b6["text"] == "O" and b9["text"] == "O":
+			b3.config(bg="green")
+			b6.config(bg="green")
+			b9.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		#Check diagonals
+		elif b1["text"] == "O" and b5["text"] == "O" and b9["text"] == "O":
+			b1.config(bg="green")
+			b5.config(bg="green")
+			b9.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+		elif b3["text"] == "O" and b5["text"] == "O" and b7["text"] == "O":
+			b3.config(bg="green")
+			b5.config(bg="green")
+			b7.config(bg="green")
+			winner = True
+			messagebox.showinfo("Tic-Tac-Toe", "O wins!")
+			disable_buttons()
+	#Button clicked function
+	def b_click(b): 
+		global clicked, count
+	
+		#Click a box to fill in X and will go first
+		if b["text"] == " " and clicked == True:
+			b["text"] = "X"
+			clicked = False
+			count += 1
+			checkforwinner()
+		#Click a box to fill in O
+		elif b["text"] == " " and clicked == False:
+			b["text"] = "O"
+			clicked = True
+			count +=1
+			checkforwinner()
+			#If you try to choose a that has been chosen show an error box
+		else:
+			messagebox.showerror("Tic-Tac-Toe", "That box has been taken, please select another")
+	#Reset the game values
+	def resetgame():
+		global b1, b2, b3, b4, b5, b6, b7, b8, b9
+		global clicked, count
+		clicked = True
+		count = 0
+		
+	
+		#Create buttons for tic tac toe
+		b1 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b1))
+		b2 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b2))
+		b3 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b3))
+		
+		b4 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b4))
+		b5 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b5))
+		b6 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b6))
+		
+		b7 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b7))
+		b8 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b8))
+		b9 = Button(root, text = " ", font = ("Helvetica", 20), height = 3, width = 6, bg = 'White', command = lambda: b_click(b9))
+	
+		#Create rules label 
+		r_label = Label(root, text="X will go first. Get three in a row to win")
+		
+		#Grid for buttons
+		#row 1
+		b1.grid(row = 0, column = 0)
+		b2.grid(row = 0, column = 1)
+		b3.grid(row = 0, column = 2)
+		
+		#row 2
+		b4.grid(row = 1, column = 0)
+		b5.grid(row = 1, column = 1)
+		b6.grid(row = 1, column = 2)
+		
+		#row 3
+		b7.grid(row = 2, column = 0)
+		b8.grid(row = 2, column = 1)
+		b9.grid(row = 2, column = 2)
+		
+		r_label.grid (row = 3, column = 1, rowspan= 3)
+	
+	#Create menu
+	my_menu = Menu(root)
+	root.config(menu = my_menu)
+	
+	#Create options
+	option_menu = Menu(my_menu, tearoff = False)
+	my_menu.add_cascade(label = "Option", menu = option_menu)
+	option_menu.add_command(label = "Reset Game", command = resetgame)
+	
+	resetgame()
+	
+# Function for quit screen
+def quitsc():
+	quit=Tk()
+	# add widgets here
+	GB = Label(quit, text ="Thanks for playing!!", font=("Times New Roman", 20))
+	GB.place(x=160, y=200)
+	quit.title('Quit')
+	quit.geometry("600x600")
+	quit.mainloop()
+
+# Call main screen function
+mainsc()
